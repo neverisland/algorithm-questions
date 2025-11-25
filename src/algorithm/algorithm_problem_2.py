@@ -44,7 +44,7 @@ class Solution:
     3. 计算两个链表的和
     4. 返回组装数据
     """
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    def method(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         value1 = 0
         count1 = 0
         value2 = 0
@@ -70,6 +70,21 @@ class Solution:
             tail = nextNode
         return node
 
+    def method2(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        cur = dummy = ListNode()  # 哨兵节点
+        carry = 0  # 进位
+        while l1 or l2 or carry:  # 有一个不是空节点，或者还有进位，就继续迭代
+            if l1:
+                carry += l1.val  # 节点值和进位加在一起
+                l1 = l1.next  # 下一个节点
+            if l2:
+                carry += l2.val  # 节点值和进位加在一起
+                l2 = l2.next  # 下一个节点
+            cur.next = ListNode(carry % 10)  # 每个节点保存一个数位
+            carry //= 10  # 新的进位
+            cur = cur.next  # 下一个节点
+        return dummy.next  # 哨兵节点的下一个节点就是头节点
+
 if __name__ == '__main__':
     s = Solution()
     l1 = ListNode(2)
@@ -78,5 +93,5 @@ if __name__ == '__main__':
     l2 = ListNode(5)
     l2.next = ListNode(6)
     l2.next.next = ListNode(4)
-    r = s.addTwoNumbers(l1, l2)
+    r = s.method(l1, l2)
     print(r)
